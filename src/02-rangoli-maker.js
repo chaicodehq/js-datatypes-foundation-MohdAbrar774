@@ -45,22 +45,53 @@
  *   extractRangoliCenter("***LOTUS***", 3, 8) // => "LOTUS"
  *   splitAndJoinRangoli("red,blue", ",", "-")  // => "red-blue"
  */
+// console.log(makeRangoliBorder('*', 'abc'));
 export function repeatPattern(pattern, times) {
   // Your code here
+  if(typeof pattern !== 'string' || times <= 0 || !Number.isInteger(times)){
+    return "";
+  }
+
+  return pattern.repeat(times);
 }
 
 export function extractRangoliCenter(design, start, end) {
   // Your code here
+  if(typeof design !== 'string' || Number.isNaN(start) || Number.isNaN(end) ){
+    return "";
+  }
+
+  return design.slice(start,end);
+
 }
 
 export function splitAndJoinRangoli(colorString, oldSep, newSep) {
   // Your code here
+  if(typeof colorString !== 'string'){
+    return "";
+  }else{
+    let oldStr = colorString.split(oldSep);
+    let newstr = oldStr.join(newSep);
+
+    return newstr;
+  }
 }
 
 export function replaceRangoliColor(design, oldColor, newColor) {
   // Your code here
+  if(typeof design !== 'string' || typeof oldColor !== 'string' || typeof newColor !== 'string'){
+    return "";
+  }
+
+   return design.replaceAll(oldColor,newColor);
 }
 
 export function makeRangoliBorder(char, length) {
   // Your code here
+  if(typeof char !== 'string' || length < 0 || Number.isNaN(length)){
+    return "";
+  }
+  char = char.repeat(length*2);
+  return char.slice(0,length);
+
 }

@@ -42,27 +42,57 @@
  *      - Example: getWaitlistedPassengers([{name:"A",status:"confirmed"},{name:"B",status:"waitlisted"}])
  *                 => [{name:"B", status:"waitlisted"}]
  *
+ console.log()
  * @example
  *   findPassenger(passengers, "Rahul")   // => { name: "Rahul", ... }
  *   isAnyWaitlisted(passengers)          // => true/false
  *   areAllConfirmed(passengers)          // => true/false
  */
+console.log(getWaitlistedPassengers([{ name: "rahul", coach: "S5", seat: 42, status: "confirmed" },
+   { name: "Priya", coach: "S3", seat: 15, status: "waitlisted" }, { name: "Riya", coach: "S3", seat: 16, status: "waitlisted" }]))
 export function findPassenger(passengers, name) {
   // Your code here
+  if(!Array.isArray(passengers) || typeof name !== 'string'){
+    return undefined;
+  }
+
+  return passengers.find(passenger => passenger.name.toLowerCase() === name.toLowerCase());
 }
 
 export function getPassengerIndex(passengers, name) {
   // Your code here
+    if(!Array.isArray(passengers) || typeof name !== 'string'){
+    return -1;
+  }
+
+ return passengers.findIndex(passenger => passenger.name.toLowerCase() === name.toLowerCase());
 }
 
 export function isAnyWaitlisted(passengers) {
   // Your code here
+  if(!Array.isArray(passengers) || passengers.length === 0){
+    return false;
+  }
+
+  return passengers.some(passenger => passenger.status === "waitlisted")
 }
 
 export function areAllConfirmed(passengers) {
   // Your code here
+    if(!Array.isArray(passengers) || passengers.length === 0){
+    return false;
+  }
+
+  return passengers.every(passenger => passenger.status === "confirmed")
 }
 
 export function getWaitlistedPassengers(passengers) {
   // Your code here
+      if(!Array.isArray(passengers)){
+    return [];
+  }
+
+  let waitinglist = passengers.filter(passenger => passenger.status === "waitlisted");
+
+  return waitinglist;
 }

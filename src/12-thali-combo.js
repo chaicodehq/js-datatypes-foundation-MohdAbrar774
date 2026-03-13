@@ -54,16 +54,70 @@
  */
 export function createThaliDescription(thali) {
   // Your code here
+  if (typeof thali !== "object" || thali === null) {
+    return "";
+  }
+
+ 
+    const hasValidName = typeof thali.name === "string";
+    const hasValidItems = Array.isArray(thali.items);
+    const hasValidPrice = typeof thali.price === "number";
+    const hasValidIsVeg = typeof thali.isVeg === "boolean";
+
+    if (!hasValidName || !hasValidItems || !hasValidPrice || !hasValidIsVeg) {
+      return "";
+    }
+
+    const nam = thali.name.toUpperCase();
+    const type = thali.isVeg ? "Veg" : "Non-Veg";
+    const iTeMs = thali.items.join(", ");
+    const rate = thali.price.toFixed(2);
+
+    return `${nam} (${type}) - Items: ${iTeMs} - Rs.${rate}`;
+
 }
 
 export function getThaliStats(thalis) {
   // Your code here
+  if(!Array.isArray(thalis) || thalis.length === 0){
+    return null;
+  }
+  const totalThalis = thalis.length;
+  const vegThalis = thalis.filter(thali => thali.isVeg);
+  const nonVegThalis = thalis.filter(thali => !thali.isVeg);
+
+ const vegCount = vegThalis.length; 
+ const nonVegCount = nonVegThalis.length; 
+ const totalPrice =  thalis.reduce((prev, currVal) => {
+     prev +=  currVal.price;
+
+     return prev;
+  
+    },0);
+    const avgPrice = (totalPrice/totalThalis).toFixed(2);
+  const cheapest = thalis.reduce((prev,currVal) => Math.min(prev,currVal.price),Infinity);
+  const costliest = thalis.reduce((prev,currVal) => Math.max(prev,currVal.price),-Infinity);
+  const names = thalis.map((thali) => thali.name)
+  return { totalThalis, vegCount, nonVegCount, avgPrice,cheapest ,costliest ,names};
 }
 
 export function searchThaliMenu(thalis, query) {
   // Your code here
+  if(!Array.isArray(thalis) || typeof query !== 'string'){
+    return [];
+  }
+  const isThere = thalis.filter((thali) => thali.name.toLowerCase().includes(query.toLowerCase()) || thali.items.some(item => item.toLowerCase().includes(query.toLowerCase())));
+  return isThere;
 }
 
 export function generateThaliReceipt(customerName, thalis) {
   // Your code here
+  if(typeof customerName !== 'string' || !Array.isArray(thalis) || thalis.length === 0){
+    return "";
+  }
+  const upperName = customerName.toUpperCase();
+  const lineItems = thalis.map(thali => `- ${thali.name} x Rs.${thali.price.toFixed(2)}`).join('\n');
+  const total = thalis.reduce((sum, thali) => sum + thali.price, 0).toFixed(2);
+  const count = thalis.length;
+  return `THALI RECEIPT\n---\nCustomer: ${upperName}\n${lineItems}\n---\nTotal: Rs.${total}\nItems: ${count}`;
 }
